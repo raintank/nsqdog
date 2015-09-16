@@ -6,3 +6,9 @@ so while NSQ has a statsd output, it's a pain to make use of it in datadog,
 especially with multiple hosts, topics, channels, clients.
 
 so this project sends the metrics to datadog using their tag based scheme.
+
+```
+usage: ./nsqdog <api-key> <app-key> [optional, tags for:datadog]
+example:
+./nsqdog my-api-key my-app-key footag env:production
+```
