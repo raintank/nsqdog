@@ -21,7 +21,6 @@ func main() {
 		hostname = &h
 	}
 	args := flag.Args()
-	log.Printf("os args: %d", len(args))
 	if len(args) < 3 {
 		fmt.Printf("usage: %s [ -N hostname (optional, defaults to hostname) ] <api-key> <app-key> [optional, tags for:datadog]\n", os.Args[0])
 		fmt.Printf("example:\n%s my-api-key my-app-key footag env:production\n", os.Args[0])
