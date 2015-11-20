@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -11,14 +12,22 @@ import (
 	"github.com/zorkian/go-datadog-api"
 )
 
+var hostname = flag.String("N", "", "Hostname to report to Datadog (defaults to hostname)")
+
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Printf("usage: %s <api-key> <app-key> [optional, tags for:datadog]\n", os.Args[0])
+	flag.Parse()
+	if *hostname == "" {
+		h, _ := os.Hostname()
+		hostname = &h
+	}
+	args := flag.Args()
+	if len(args) < 3 {
+		fmt.Printf("usage: %s [ -N hostname (optional, defaults to hostname) ] <api-key> <app-key> [optional, tags for:datadog]\n", os.Args[0])
 		fmt.Printf("example:\n%s my-api-key my-app-key footag env:production\n", os.Args[0])
 		os.Exit(2)
 	}
-	client := datadog.NewClient(os.Args[1], os.Args[2])
-	extraTags := os.Args[3:]
+	client := datadog.NewClient(args[1], args[2])
+	extraTags := args[3:]
 
 	resp, err := http.Get("http://localhost:4151/stats?format=json")
 	if err != nil {
